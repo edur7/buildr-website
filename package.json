@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:tailwind": "./node_modules/.bin/tailwindcss -i ./css/tailwind.css -o ./css/output.css",
+    "build:tailwind": "npm exec tailwindcss -- -i ./css/tailwind.css -o ./css/output.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
