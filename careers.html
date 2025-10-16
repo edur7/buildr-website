@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - Buildr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white py-4 px-6 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-hard-hat text-yellow-400 text-2xl"></i>
+                <h1 class="text-2xl font-bold">Buildr</h1>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="careers.html" class="nav-link">Careers</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Careers Hero Section -->
+    <section class="gradient-bg text-white py-20 relative overflow-hidden hero-pattern hero-enhanced">
+        <div class="premium-bg"></div>
+        <div class="premium-overlay"></div>
+        <div class="particles" id="particles"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col items-center text-center">
+                <h1 class="hero-title-enhanced font-bold mb-6 ultra-text-glow">
+                    Join Our <span class="gradient-text">Team</span>
+                </h1>
+                <p class="hero-subtitle-enhanced">
+                    Build your career with a leader in the construction industry. We are always looking for talented and passionate individuals to join our team.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spontaneous Application Section -->
+    <section class="py-20 bg-gray-800 ultra-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gray-100 mb-4 section-title">Work <span class="gradient-text">With Us</span></h2>
+                <p class="text-gray-300 max-w-2xl mx-auto section-subtitle">
+                    We are always looking for talent. Even if you don't find a specific opening, send us your application.
+                </p>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="ultra-modern-card p-8 rounded-xl mb-12">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-3">Spontaneous Application</h3>
+                    <p class="text-gray-400 mb-4">
+                        Is your ideal opportunity not listed? No problem. Tell us what you can do, and we will contact you as soon as a position matching your skills becomes available.
+                    </p>
+                    <p class="text-gray-200 font-semibold mb-2">We are looking for talent, especially in the following areas:</p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li>Construction Helper</li>
+                        <li>Cement Finisher</li>
+                        <li>Heavy Equipment Operator</li>
+                    </ul>
+                </div>
+
+                <div class="ultra-modern-card p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-3">Seasonal Work: Snow Removal</h3>
+                    <p class="text-gray-400">
+                        During the winter season, we expand our team for snow removal services. If you are interested in seasonal work and want to join us, leave your contact information using the form below.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form Section -->
+    <section id="contact" class="py-20 bg-gray-900 ultra-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gray-100 mb-4 section-title">Apply <span class="gradient-text">Now</span></h2>
+                <p class="text-gray-300 max-w-2xl mx-auto section-subtitle">
+                    Fill out the form below to apply for a position at Buildr.
+                </p>
+            </div>
+            <div class="contact-enhanced">
+                <form class="contact-form" name="careers" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                    <input type="hidden" name="form-name" value="careers" />
+                    <p class="hidden">
+                        <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <input type="text" name="name" placeholder="Your Name" class="w-full" required>
+                        </div>
+                        <div>
+                            <input type="email" name="email" placeholder="Your Email" class="w-full" required>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <input type="text" name="position" placeholder="Position Applying For" class="w-full" required>
+                    </div>
+                    <div class="mb-6">
+                        <textarea name="message" placeholder="Your Message" rows="4" class="w-full" required></textarea>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-300 mb-2" for="resume">Upload Your Resume</label>
+                        <input type="file" name="resume" id="resume" class="w-full" required>
+                    </div>
+                    <button type="submit" class="ultra-btn w-full">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-enhanced text-white py-16">
+        <div class="footer-content-enhanced container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <i class="fas fa-hard-hat text-yellow-400 text-3xl"></i>
+                        <h2 class="text-3xl font-bold">Buildr</h2>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg">
+                        Premium construction solutions in Ontario. Building the future with innovation and excellence.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="footer-link">Construction</a></li>
+                        <li><a href="#services" class="footer-link">Demolition</a></li>
+                        <li><a href="#services" class="footer-link">Snow Removal</a></li>
+                        <li><a href="#services" class="footer-link">Equipment Rental</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+
+                        <li><a href="careers.html" class="footer-link">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Newsletter</h3>
+                    <p class="text-gray-300 mb-4">Subscribe to our newsletter for updates and offers.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your Email" class="px-4 py-3 rounded-l-lg w-full focus:outline-none text-gray-900">
+                        <button type="submit" class="bg-yellow-500 text-gray-900 px-6 py-3 rounded-r-lg font-bold">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">© 2023 Buildr. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <span class="absolute top-0 right-0 p-4 text-white text-3xl cursor-pointer" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" class="max-w-full max-h-full">
+    </div>
+</body>
+</html>
