@@ -436,7 +436,10 @@
                 
                 <div class="contact-enhanced">
                     <h3 class="text-3xl font-bold text-gray-100 mb-6">Request a Quote</h3>
-                    <form class="contact-form" name="contact" method="POST" data-netlify="true">
+                    <form class="contact-form" name="contact" method="POST" data-netlify="true" action="/success">
+                        <p class="hidden">
+                            <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+                        </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div>
                                 <input type="text" name="name" placeholder="Your Name" class="w-full" required>
