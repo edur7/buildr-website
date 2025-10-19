@@ -1,0 +1,9 @@
+{
+  "name": "submit-contact-function",
+  "version": "1.0.0",
+  "description": "Netlify function to handle contact form submissions and send emails via SendGrid.",
+  "main": "submit-contact.js",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0"
+  }
+}

@@ -1,9 +1,5 @@
-// This file will contain the Netlify Function to handle contact form submissions.
-// It will receive form data, send an email, and return a JSON response.
-
-// We will use Nodemailer to send emails. You will need to configure your SMTP details or API key for an email service.
-
-// Example structure (will be filled in with actual logic once email details are provided):
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
@@ -17,21 +13,32 @@ exports.handler = async (event, context) => {
         const data = JSON.parse(event.body);
         const { name, email, subject, service, message } = data;
 
-        // TODO: Implement email sending logic here using Nodemailer or a similar service.
-        // You will need to configure your email sending credentials (e.g., SMTP details or API key).
+        const msg = {
+            to: process.env.TO_EMAIL, // Your email address where you want to receive messages
+            from: process.env.FROM_EMAIL, // Your verified SendGrid sender email
+            subject: `Buildr Contact Form: ${subject} (Service: ${service})`,
+            html: `
+                <strong>Name:</strong> ${name}<br>
+                <strong>Email:</strong> ${email}<br>
+                <strong>Subject:</strong> ${subject}<br>
+                <strong>Service:</strong> ${service}<br>
+                <strong>Message:</strong><br>${message.replace(/\n/g, '<br>')}
+            `,
+        };
 
-        console.log('Received form submission:', data);
+        await sgMail.send(msg);
 
-        // For now, just return a success message.
+        console.log('Email sent successfully!');
+
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'Message received successfully! (Email sending not yet configured)' }),
+            body: JSON.stringify({ message: 'Message sent successfully!' }),
         };
     } catch (error) {
-        console.error('Error processing form submission:', error);
+        console.error('Error sending email:', error.response ? error.response.body : error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: 'Failed to process form submission.' }),
+            body: JSON.stringify({ message: 'Failed to send message. Please try again later.' }),
         };
     }
 };
