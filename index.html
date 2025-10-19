@@ -436,7 +436,7 @@
                 
                 <div class="contact-enhanced">
                     <h3 class="text-3xl font-bold text-gray-100 mb-6">Request a Quote</h3>
-                    <form class="contact-form" name="contact" method="POST" data-netlify="true" action="/form-success">
+                    <form class="contact-form" name="contact" id="contactForm" method="POST" data-netlify="true">
                         <p class="hidden">
                             <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
                         </p>
@@ -471,6 +471,7 @@
                             Send Message
                         </button>
                     </form>
+                    <div id="form-messages" class="mt-4 text-center text-lg font-semibold"></div>
                 </div>
             </div>
         </div>
@@ -540,5 +541,57 @@
         <span class="absolute top-0 right-0 p-4 text-white text-3xl cursor-pointer" onclick="closeLightbox()">&times;</span>
         <img id="lightbox-img" class="max-w-full max-h-full">
     </div>
+    <script src="js/carousel.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            const formMessages = document.getElementById('form-messages');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+
+                    // Clear previous messages
+                    formMessages.textContent = '';
+                    formMessages.className = 'mt-4 text-center text-lg font-semibold';
+
+                    const formData = new FormData(contactForm);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        if (key !== 'bot-field') { // Exclude honeypot field
+                            data[key] = value;
+                        }
+                    });
+
+                    try {
+                        const response = await fetch('/.netlify/functions/submit-contact', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            formMessages.textContent = result.message || 'Message sent successfully!';
+                            formMessages.classList.add('text-green-400');
+                            contactForm.reset();
+                        } else {
+                            formMessages.textContent = result.message || 'Error sending message.';
+                            formMessages.classList.add('text-red-400');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        formMessages.textContent = 'An unexpected error occurred.';
+                        formMessages.classList.add('text-red-400');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
