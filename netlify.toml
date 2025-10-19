@@ -2,3 +2,6 @@
   from = "/success"
   to = "/thank-you.html"
   status = 200
+
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"
