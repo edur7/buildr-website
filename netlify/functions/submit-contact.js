@@ -2,6 +2,7 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.handler = async (event, context) => {
+    console.log('Function submit-contact invoked.'); // Added log
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
