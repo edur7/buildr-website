@@ -1,4 +1,4 @@
 [[redirects]]
   from = "/success"
-  to = "/form-success.html"
+  to = "/thank-you.html"
   status = 200
