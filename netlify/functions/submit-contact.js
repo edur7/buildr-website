@@ -27,7 +27,12 @@ exports.handler = async (event, context) => {
             `,
         };
 
-        await sgMail.send(msg);
+        console.log('TO_EMAIL:', process.env.TO_EMAIL);
+        console.log('FROM_EMAIL:', process.env.FROM_EMAIL);
+
+        const response = await sgMail.send(msg);
+
+        console.log('SendGrid response:', response);
 
         console.log('Email sent successfully!');
 
