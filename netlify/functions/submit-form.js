@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { URLSearchParams } = require('url');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -10,7 +11,9 @@ exports.handler = async (event) => {
   const REPO_NAME = 'buildr-website';
 
   try {
-    const formData = JSON.parse(event.body);
+    const params = new URLSearchParams(event.body);
+    const formData = Object.fromEntries(params.entries());
+
     const formName = formData['form-name'] || 'contact';
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const fileName = `${formName}-${timestamp}.txt`;
@@ -18,9 +21,16 @@ exports.handler = async (event) => {
 
     let fileContent = '';
     for (const [key, value] of Object.entries(formData)) {
-      if (key !== 'form-name') {
+      if (key !== 'form-name' && key !== 'bot-field') {
         fileContent += `${key}: ${value}\n`;
       }
+    }
+
+    if (!fileContent.trim()) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ message: 'Empty submission.' })
+        };
     }
 
     const contentEncoded = Buffer.from(fileContent).toString('base64');
@@ -54,8 +64,10 @@ exports.handler = async (event) => {
     }
 
     return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Form submitted successfully!' })
+      statusCode: 302,
+      headers: {
+        'Location': '/thank-you.html'
+      }
     };
 
   } catch (error) {
