@@ -8,8 +8,11 @@ on:
       - 'submissions/**.txt'
 
 jobs:
-  send_email:
+  get_content:
     runs-on: ubuntu-latest
+    outputs:
+      has_content: ${{ steps.check_content.outputs.has_content }}
+      file_name: ${{ steps.check_content.outputs.file_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,28 +20,55 @@ jobs:
           fetch-depth: 2
 
       - name: Get new file content
-        id: get_content
+        id: check_content
         run: |
           NEW_FILE=$(git diff-tree --no-commit-id --name-only -r HEAD | grep 'submissions/')
           if [ -z "$NEW_FILE" ]; then
             echo "No new submission file found."
+            echo "has_content=false" >> $GITHUB_OUTPUT
             exit 0
           fi
           CONTENT=$(cat "$NEW_FILE")
+          echo "has_content=true" >> $GITHUB_OUTPUT
+          echo "file_name=$(basename "$NEW_FILE")" >> $GITHUB_OUTPUT
+          echo "$CONTENT" > content.txt
+
+      - name: Upload submission content
+        if: steps.check_content.outputs.has_content == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: submission-content
+          path: content.txt
+
+  send_email:
+    runs-on: ubuntu-latest
+    needs: get_content
+    if: needs.get_content.outputs.has_content == 'true'
+    steps:
+      - name: Download submission content
+        uses: actions/download-artifact@v3
+        with:
+          name: submission-content
+
+      - name: Read submission content
+        id: submission
+        run: |
+          CONTENT=$(cat content.txt)
           echo "file_content<<EOF" >> $GITHUB_OUTPUT
           echo "$CONTENT" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-          echo "file_name=$(basename $NEW_FILE)" >> $GITHUB_OUTPUT
 
       - name: Send email notification
-        if: steps.get_content.outputs.file_content
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: 'New Form Submission: ${{ steps.get_content.outputs.file_name }}'
+          subject: 'New Form Submission: ${{ needs.get_content.outputs.file_name }}'
           to: ${{ secrets.MAIL_TO }}
           from: Buildr Website <${{ secrets.MAIL_USERNAME }}>
-          body: "A new submission has been received:\n\n${{ steps.get_content.outputs.file_content }}"
+          body: |
+            A new submission has been received:
+
+            ${{ steps.submission.outputs.file_content }}
