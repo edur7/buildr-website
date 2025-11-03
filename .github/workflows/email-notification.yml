@@ -1,0 +1,52 @@
+name: Email Form Submission
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'submissions/**.txt'
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Get new file content
+        id: get_content
+        run: |
+          # Get the name of the new file from the last commit
+          NEW_FILE=$(git diff-tree --no-commit-id --name-only -r HEAD | grep 'submissions/')
+          if [ -z "$NEW_FILE" ]; then
+            echo "No new submission file found."
+            exit 0
+          fi
+          # Read the content of the new file
+          CONTENT=$(cat "$NEW_FILE")
+          # Escape the content for multiline environment variable
+          CONTENT="${CONTENT//'%'/'%25'}"
+          CONTENT="${CONTENT//$'
+'/'%0A'}"
+          CONTENT="${CONTENT//$''/'%0D'}"
+          echo "::set-output name=file_content::$CONTENT"
+          echo "::set-output name=file_name::$(basename $NEW_FILE)"
+
+      - name: Send email notification
+        if: steps.get_content.outputs.file_content
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: 'New Form Submission: ${{ steps.get_content.outputs.file_name }}'
+          body: |
+            A new submission has been received:
+
+            ${{ steps.get_content.outputs.file_content }}
+          to: ${{ secrets.MAIL_TO }}
+          from: Buildr Website <${{ secrets.MAIL_USERNAME }}>
